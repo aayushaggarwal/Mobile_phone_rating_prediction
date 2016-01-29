@@ -1,0 +1,56 @@
+%% Initialization
+clear ; close all; clc
+
+%% Load Data
+%  The first 10 columns contains the X values and the third column
+%  contains the label (y).
+
+trainingdata = csvread('trainingdata.csv');
+X = trainingdata(:, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]); y = trainingdata(:, 11);
+
+
+
+%% Regularized Logistic Regression
+% Doing Feature Normalization
+[X, mu, sigma] = featureNormalize(X);
+
+% Initialize fitting parameters
+initial_theta = ones(size(X, 2), 1);
+display(initial_theta);
+
+% Set regularization parameter lambda to 1
+lambda = 0.02;
+
+
+% Compute and display initial cost and gradient for regularized logistic
+% regression
+[cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
+
+fprintf('Cost at initial theta (zeros): %f\n', cost);
+
+fprintf('\nProgram paused. Press enter to continue.\n');
+pause;
+
+% Set Options
+options = optimset('GradObj', 'on', 'MaxIter', 400);
+
+% Optimizing to get theta
+[theta, J, exit_flag] = ...
+	fmincg(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+
+% Compute accuracy on our training set
+p = predict(theta, X);
+
+fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
+
+% Predicting the test cases:
+testdata = csvread('testdata.csv');
+X2 = testdata(:, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]); 
+% Doing Feature Normalization
+[X2, mu2, sigma2] = featureNormalize(X2);
+
+p2 = predict(theta, X2);
+
+display(p2);
+
+
