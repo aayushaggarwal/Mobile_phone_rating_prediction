@@ -1,1 +1,1 @@
-This project predicts the mobile pphone rating based on certain mobile features and Google Trends frequencies of that mobile phone.It is supervised learning algorithm Logistic Regression  with a training accuracy of 61%
+This project predicts the mobile pphone rating based on certain mobile features and Google Trends frequencies of that mobile phone.It is supervised learning algorithm Logistic Regression  with a training accuracy of 61%.It is implemented in MATLAB
